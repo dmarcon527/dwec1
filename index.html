@@ -7,10 +7,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Validar Datos</title>
     <script src="scriptIndex.js" defer></script>
+    <style>
+        .incorrecto {
+            color: red;
+            border: 1px solid red;
+        }
+
+        .correcto {
+            color: green;
+            border: default;
+        }
+    </style>
 </head>
 
 <body>
-    
+    <form>
+        Inserte el email <input type="email" required id="email" size="30"> <br>
+        Inserte la contraseña <input type="password" id="password" required><br>
+        Repita la contraseña <input type="password" id="repitPassw" required><br>
+        <input type="button" value="Aceptar" id="enviar">
+
+    </form>
+    <ul>
+        <li>Mayúscula</li>
+        <li>Minúscula</li>
+        <li>Dígito</li>
+        <li>Especial #?!@$%^&*-</li>
+        <li>8 caracteres o más</li>
+    </ul>
 
 </body>
 
