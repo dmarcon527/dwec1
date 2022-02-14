@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .incorrecto {
+            color: red;
+            border: 1px solid red;
+        }
+
+        .correcto {
+            color: green;
+            border: default;
+        }
+    </style>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('button').addEventListener("click", () => {
+
+                const letramay = new RegExp("(?=.*?[A-Z])");
+                const letramin = new RegExp("(?=.*?[a-z])");
+                const digito = new RegExp("(?=.*?[0-9])");
+                const especial = new RegExp("(?=.*?[=#?!@$%^&*-])");
+                const longitud = new RegExp(".{8,}");
+                const p = document.querySelector('#contra').value;
+                let expresiones = [letramay, letramin, digito, especial, longitud];
+                console.log(expresiones);
+                let valido = true;
+
+                expresiones.forEach((v, k) => {
+                    console.log(v.test(p));
+                    if (!v.test(p)) {
+                        valido = false;
+                        document.querySelector(`li:nth-child(${k + 1})`).classList.add("incorrecto");
+                        document.querySelector(`li:nth-child(${k + 1})`).classList.remove("correcto");
+                    } else {
+                        document.querySelector(`li:nth-child(${k + 1})`).classList.add("correcto");
+                        document.querySelector(`li:nth-child(${k + 1})`).classList.remove("incorrecto");
+                    }
+
+
+                })
+
+
+                //document.querySelector('div').innerText=a.test(p).toString();
+                if (!valido) {
+                    document.querySelector('#contra').classList.add("incorrecto");
+                    document.querySelector('#contra').classList.remove("correcto");
+                }
+                else {
+                    document.querySelector('#contra').classList.remove("incorrecto");
+                    document.querySelector('#contra').classList.add("correcto");
+                    var fecha = new Date;
+                    fecha.setDate(fecha.getDate() + 365);
+                    document.cookie = `password=${p};expires=${fecha.toUTCString()}`;
+                    sessionStorage.setItem('password', p);
+                    localStorage.setItem('plocal', p)
+                }
+            });
+        });
+
+
+    </script>
+</head>
+
+<body>
+    <form>
+        <input type="text" id="contra">
+        <button type="button">Validar</button>
+    </form>
+    <ul>
+        <li>Mayúscula</li>
+        <li>Minúscula</li>
+        <li>Dígito</li>
+        <li>Especial #?!@$%^&*-</li>
+        <li>8 caracteres o más</li>
+    </ul>
+    <div></div>
+</body>
+
+</html>
