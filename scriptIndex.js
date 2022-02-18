@@ -1,10 +1,44 @@
+function notificarDatosBien() {
+    Notification.requestPermission().then(function (permission) {
+        if (permission === "granted") {
+            let notification = new Notification(document.title, {
+                body: `Está todo correcto \n ${String.fromCodePoint(0x1F609)}`,
+                icon: "favicon.ico"
+            });
+        } else {
+            alert(`No está correcto \n ${String.fromCodePoint(0x1F611)}`)
+        }
+    });
+}
+ 
  function comprobarContra(){
-     let contra1= document.querySelector('#password').values; 
-     let contra2= document.querySelector('#repitPassw').values; 
-     if(contra1!=contra2){
-         alert("Las contraseñas no son iguales.")
+    document.querySelector('#enviar').addEventListener("click", ()=>{
+     let contra1= document.querySelector('#password'); 
+     let contra2= document.querySelector('#repitPassw'); 
+     if(contra1==contra2){
+         document.querySelector('#repitPassw').classList.add("correcto");
+     }else{
+        document.querySelector('#repitPassw').classList.add("incorrecto");
      }
+    }); 
  }
+
+ function comprobarEmail(){
+    document.querySelector('#enviar').addEventListener("click", ()=>{
+        const patronEmail= /.+@gmail\.com/; 
+        let e=document.querySelector('#email').value;
+    if(!patronEmail.test(e)){ 
+    document.querySelector('#email').classList.add("incorrecto");
+}else{
+    document.querySelector('#email').classList.add("correcto");
+}
+ }); 
+}
+
+ function noCopy(evt) {
+    evt.preventDefault();//corta el evento
+}
+
 
 window.addEventListener("DOMContentLoaded", () => {
     document.querySelector('#password').addEventListener("input",() => {
@@ -42,18 +76,19 @@ window.addEventListener("DOMContentLoaded", () => {
             }
     
         });
+        
+        document.querySelectorAll('#password, #repitPassw').forEach(e => {
+            e.addEventListener("copy", noCopy);
+            e.addEventListener("paste", noCopy);
+        });
 
+         
         document.querySelector('#enviar').addEventListener("click", ()=>{
-            let email = document.getElementById("#email"); 
-            if (!email.checkValidity()){ //si la validación es incorrecta
-                alert("email incorrecto"); 
-                return false;
-                }else{
-                    return true; 
-                }
-                
-                comprobarContra; 
-        }); 
+            comprobarEmail(); 
+            comprobarContra(); 
+            notificarDatosBien();
+    }); 
+
     }); 
 
 
